@@ -1,4 +1,4 @@
-const { head } = require('../src/head.js');
+const { head } = require('../src/headLib.js');
 const assert = require('assert');
 
 describe('head', () => {
