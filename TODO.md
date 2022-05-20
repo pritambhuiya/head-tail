@@ -1,8 +1,11 @@
 **TODO**
+- [ ] Implement validateOption function
 - [ ] Make head work for only contents not file
 - [ ] Make default lines as 10
 - [ ] Call head function of headLib.js from head.js
+- [ ] Second option will override first option
 - [ ] Throw error if maxLine and maxBytes both are given
+- [ ] Throw error if maxLines or maxBytes is 0
 - [ ] Throw error if maxLine and maxBytes both are 0 
 - [ ] Investigate head
 
@@ -11,6 +14,8 @@
 
 **DONE**
 
+- [x] Write test for contentsUpto
+- [x] Write test for getDelimiter
 - [x] Extract common function
   - [x] BytesUpto & linesUpto are almost same
   - [x] SplitCharacters & splitLines are almost same
@@ -26,7 +31,7 @@
 - [x] Implement maxLines option in head function
 - [x] Implement head for multiple lines
 - [x] Implement head for 1 line
-- [x] Implement head for entire contents
+- [x] Implement head for multiple lines
 - [x] Rename testHead.js to testHeadLib.js
 - [x] Create headLib.js in src/
 - [x] Move head.js back to root
