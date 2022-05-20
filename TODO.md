@@ -1,12 +1,17 @@
 **TODO**
 
-- [ ] Implement head for 1 line
-- [ ] Implement head for 2 lines
-- [ ] Implement head for multiple lines
 - [ ] Make head.js work for only contents not file
+- [ ] Make head.js work for only contents not file
+- [ ] Implement head for 1 byte
+- [ ] Implement head for 2 bytes
+- [ ] Data structure for options
 
 **DONE**
 
+- [x] Extract splitLines & joinLines function
+- [x] Implement lines option in head function
+- [x] Implement head for 2 lines
+- [x] Implement head for 1 line
 - [x] Implement head for entire contents
 - [x] Rename testHead.js to testHeadLib.js
 - [x] Create headLib.js in src/
