@@ -1,5 +1,6 @@
 **TODO**
 
+- [ ] Extract bytesUpto function
 - [ ] Implement head for 1 byte
 - [ ] Implement head for 2 bytes
 - [ ] Make head work for only contents not file
@@ -11,6 +12,7 @@
 
 **DONE**
 
+- [x] Extract linesUpto function
 - [x] Consider data structure for options
 - [x] Extract splitLines & joinLines function
 - [x] Implement maxLines option in head function
