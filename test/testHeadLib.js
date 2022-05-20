@@ -1,4 +1,4 @@
-const { head, linesUpto, bytesUpto } = require('../src/headLib.js');
+const { head } = require('../src/headLib.js');
 const assert = require('assert');
 
 describe('head', () => {
@@ -14,48 +14,43 @@ describe('head', () => {
     assert.strictEqual(head('hello\nbye\nhi', { maxLines: 2, maxBytes: 0 }),
       'hello\nbye');
   });
-});
-
-describe('linesUpto', () => {
-  it('Should return 1 line', () => {
-    assert.strictEqual(linesUpto('hello', { maxLines: 1 }), 'hello');
-    assert.strictEqual(linesUpto('hello\nbye', { maxLines: 1 }), 'hello');
-  });
-
-  it('Should return multiple lines', () => {
-    assert.strictEqual(linesUpto('hello\nbye', { maxLines: 2 }), 'hello\nbye');
-    assert.strictEqual(linesUpto('hello\nbye\nhi', { maxLines: 2 }),
-      'hello\nbye');
-  });
 
   it('Should return given lines having empty line', () => {
-    assert.strictEqual(linesUpto('', { maxLines: 1 }), '');
-    assert.strictEqual(linesUpto('hello\n', { maxLines: 1 }), 'hello');
-    assert.strictEqual(linesUpto('hello\n', { maxLines: 2 }), 'hello\n');
-    assert.strictEqual(linesUpto('hello\n\nbye', { maxLines: 2 }), 'hello\n');
-    assert.strictEqual(linesUpto('hello\n\nbye', { maxLines: 3 }),
+    assert.strictEqual(head('', { maxLines: 1, maxBytes: 0 }), '');
+    assert.strictEqual(head('hello\n', { maxLines: 1, maxBytes: 0 }), 'hello');
+    assert.strictEqual(head('hello\n', { maxLines: 2, maxBytes: 0 }),
+      'hello\n');
+    assert.strictEqual(head('hello\n\nbye', { maxLines: 2, maxBytes: 0 }),
+      'hello\n');
+    assert.strictEqual(head('hello\n\nbye', { maxLines: 3, maxBytes: 0 }),
       'hello\n\nbye');
   });
-});
 
-describe('bytesUpto', () => {
   it('Should return 1 byte', () => {
-    assert.strictEqual(bytesUpto('a', { maxBytes: 1 }), 'a');
-    assert.strictEqual(bytesUpto('ab', { maxBytes: 1 }), 'a');
+    assert.strictEqual(head('a', { maxbytes: 0, maxBytes: 1 }), 'a');
+    assert.strictEqual(head('ab', { maxbytes: 0, maxBytes: 1 }), 'a');
   });
 
   it('Should return multiple bytes', () => {
-    assert.strictEqual(bytesUpto('ab', { maxBytes: 2 }), 'ab');
-    assert.strictEqual(bytesUpto('abc', { maxBytes: 3 }), 'abc');
+    assert.strictEqual(head('ab', { maxbytes: 0, maxBytes: 2 }), 'ab');
+    assert.strictEqual(head('abc', { maxbytes: 0, maxBytes: 2 }), 'ab');
   });
 
-  it('Should return given lines having empty bytes', () => {
-    assert.strictEqual(bytesUpto('', { maxBytes: 1 }), '');
-    assert.strictEqual(bytesUpto('a b', { maxBytes: 3 }), 'a b');
-    assert.strictEqual(bytesUpto('a b', { maxBytes: 2 }), 'a ');
-    assert.strictEqual(bytesUpto('a\nb', { maxBytes: 3 }), 'a\nb');
-    assert.strictEqual(bytesUpto('a\nb', { maxBytes: 2 }), 'a\n');
-    assert.strictEqual(bytesUpto('a\n\nb', { maxBytes: 3 }), 'a\n\n');
+  it('Should return given bytes having empty lines', () => {
+    assert.strictEqual(head('\n', { maxLines: 0, maxBytes: 1 }), '\n');
+    assert.strictEqual(head('a\n', { maxLines: 0, maxBytes: 1 }), 'a');
+    assert.strictEqual(head('a\n', { maxLines: 0, maxBytes: 2 }), 'a\n');
+    assert.strictEqual(head('a\n\b', { maxLines: 0, maxBytes: 2 }), 'a\n');
+    assert.strictEqual(head('a\n\b', { maxLines: 0, maxBytes: 3 }), 'a\n\b');
+  });
+
+  it('Should return given bytes having empty lines', () => {
+    assert.strictEqual(head(' ', { maxLines: 0, maxBytes: 1 }), ' ');
+    assert.strictEqual(head('a ', { maxLines: 0, maxBytes: 1 }), 'a');
+    assert.strictEqual(head('a ', { maxLines: 0, maxBytes: 2 }), 'a ');
+    assert.strictEqual(head('a b', { maxLines: 0, maxBytes: 2 }), 'a ');
+    assert.strictEqual(head('a b', { maxLines: 0, maxBytes: 3 }), 'a b');
   });
 
 });
+

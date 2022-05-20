@@ -1,28 +1,21 @@
-const splitLines = (lines) => lines.split('\n');
-const joinLines = (lines) => lines.join('\n');
+const split = (contents, seperator) => contents.split(seperator);
 
-const splitCharacters = (lines) => lines.split('');
-const joinCharacters = (lines) => lines.join('');
+const join = (contents, delimiter) => contents.join(delimiter);
 
-const bytesUpto = (contents, { maxBytes }) => {
-  const lines = splitCharacters(contents);
-  const requiredLines = lines.slice(0, maxBytes);
+const contentsUpto = (contents, upto) => contents.slice(0, upto);
 
-  return joinCharacters(requiredLines);
-};
-
-const linesUpto = (contents, { maxLines }) => {
-  const lines = splitLines(contents);
-  const requiredLines = lines.slice(0, maxLines);
-
-  return joinLines(requiredLines);
+const getDelimiter = (key) => {
+  const delimiter = { 'maxLines': '\n', 'maxBytes': '' };
+  return delimiter[key];
 };
 
 const head = (contents, { maxLines, maxBytes }) => {
-  const fnToCall = maxBytes > 0 && maxLines === 0 ? bytesUpto : linesUpto;
-  return fnToCall(contents, { maxLines, maxBytes });
+  const option = maxBytes === 0 ? { maxLines } : { maxBytes };
+  const delimiter = getDelimiter(Object.keys(option));
+  const contentsArray = split(contents, delimiter);
+  const requiredContents = contentsUpto(contentsArray, Object.values(option));
+
+  return join(requiredContents, delimiter);
 };
 
 exports.head = head;
-exports.linesUpto = linesUpto;
-exports.bytesUpto = bytesUpto;
