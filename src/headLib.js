@@ -1,7 +1,7 @@
 const splitLines = (lines) => lines.split('\n');
 const joinLines = (lines) => lines.join('\n');
 
-const liinesUpto = (contents, { maxLines }) => {
+const linesUpto = (contents, { maxLines }) => {
   const lines = splitLines(contents);
   const requiredLines = lines.slice(0, maxLines);
 
@@ -9,7 +9,8 @@ const liinesUpto = (contents, { maxLines }) => {
 };
 
 const head = (contents, { maxLines, maxBytes }) => {
-  return liinesUpto(contents, { maxLines, maxBytes });
+  return linesUpto(contents, { maxLines, maxBytes });
 };
 
 exports.head = head;
+exports.linesUpto = linesUpto;

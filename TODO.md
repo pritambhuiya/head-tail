@@ -1,6 +1,7 @@
 **TODO**
 
 - [ ] Extract bytesUpto function
+- [ ] Write test for BytesUpto function
 - [ ] Implement head for 1 byte
 - [ ] Implement head for 2 bytes
 - [ ] Make head work for only contents not file
@@ -9,9 +10,11 @@
 
 **MAYBE**
 
+- [ ] Consider making general split functions
 
 **DONE**
 
+- [x] Write test for linesUpto function
 - [x] Extract linesUpto function
 - [x] Consider data structure for options
 - [x] Extract splitLines & joinLines function
