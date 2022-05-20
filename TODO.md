@@ -1,15 +1,19 @@
 **TODO**
 
-- [ ] Make head.js work for only contents not file
-- [ ] Make head.js work for only contents not file
 - [ ] Implement head for 1 byte
 - [ ] Implement head for 2 bytes
-- [ ] Data structure for options
+- [ ] Make head work for only contents not file
+- [ ] Make default lines as 10
+- [ ] Call head function of headLib.js from head.js
+
+**MAYBE**
+
 
 **DONE**
 
+- [x] Consider data structure for options
 - [x] Extract splitLines & joinLines function
-- [x] Implement lines option in head function
+- [x] Implement maxLines option in head function
 - [x] Implement head for 2 lines
 - [x] Implement head for 1 line
 - [x] Implement head for entire contents
