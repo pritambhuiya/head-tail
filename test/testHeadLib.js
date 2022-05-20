@@ -1,4 +1,4 @@
-const { head, linesUpto } = require('../src/headLib.js');
+const { head, linesUpto, bytesUpto } = require('../src/headLib.js');
 const assert = require('assert');
 
 describe('head', () => {
@@ -36,4 +36,26 @@ describe('linesUpto', () => {
     assert.strictEqual(linesUpto('hello\n\nbye', { maxLines: 3 }),
       'hello\n\nbye');
   });
+});
+
+describe('bytesUpto', () => {
+  it('Should return 1 byte', () => {
+    assert.strictEqual(bytesUpto('a', { maxBytes: 1 }), 'a');
+    assert.strictEqual(bytesUpto('ab', { maxBytes: 1 }), 'a');
+  });
+
+  it('Should return multiple bytes', () => {
+    assert.strictEqual(bytesUpto('ab', { maxBytes: 2 }), 'ab');
+    assert.strictEqual(bytesUpto('abc', { maxBytes: 3 }), 'abc');
+  });
+
+  it('Should return given lines having empty bytes', () => {
+    assert.strictEqual(bytesUpto('', { maxBytes: 1 }), '');
+    assert.strictEqual(bytesUpto('a b', { maxBytes: 3 }), 'a b');
+    assert.strictEqual(bytesUpto('a b', { maxBytes: 2 }), 'a ');
+    assert.strictEqual(bytesUpto('a\nb', { maxBytes: 3 }), 'a\nb');
+    assert.strictEqual(bytesUpto('a\nb', { maxBytes: 2 }), 'a\n');
+    assert.strictEqual(bytesUpto('a\n\nb', { maxBytes: 3 }), 'a\n\n');
+  });
+
 });

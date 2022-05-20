@@ -4,13 +4,18 @@
 - [ ] Write test for BytesUpto function
 - [ ] Implement head for 1 byte
 - [ ] Implement head for 2 bytes
+- [ ] BytesUpto & linesUpto are almost same 
+- [ ] SplitCharacters & splitLines are almost same
+- [ ] JoinCharacters & joinLines are almost same
 - [ ] Make head work for only contents not file
 - [ ] Make default lines as 10
 - [ ] Call head function of headLib.js from head.js
+- [ ] Throw error if maxLine and maxBytes both are given
+- [ ] Throw error if maxLine and maxBytes both are 0 
+- [ ] Investigate head
 
 **MAYBE**
 
-- [ ] Consider making general split functions
 
 **DONE**
 
@@ -19,7 +24,7 @@
 - [x] Consider data structure for options
 - [x] Extract splitLines & joinLines function
 - [x] Implement maxLines option in head function
-- [x] Implement head for 2 lines
+- [x] Implement head for multiple lines
 - [x] Implement head for 1 line
 - [x] Implement head for entire contents
 - [x] Rename testHead.js to testHeadLib.js
