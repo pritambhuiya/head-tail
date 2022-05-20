@@ -22,6 +22,23 @@ const head = (fileContents, { maxLines, maxBytes }) => {
   return join(requiredContents, delimiter);
 };
 
+const parseArgs = (args) => {
+  const switches = { '-n': 'maxLines', '-c': 'maxBytes' };
+  return switches[args];
+};
+
+const headMain = (fileContents, args, value) => {
+  if (value === 0) {
+    return; //throw error
+  }
+
+  const options = { maxLines: 10, maxBytes: 0 };
+  options[parseArgs(args)] = value;
+  return head(fileContents, options);
+};
+
 exports.head = head;
 exports.getDelimiter = getDelimiter;
 exports.contentsUpto = contentsUpto;
+exports.parseArgs = parseArgs;
+exports.headMain = headMain;

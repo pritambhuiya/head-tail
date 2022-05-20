@@ -2,18 +2,23 @@
 - [ ] Implement validateOption function
 - [ ] Make head work for only contents not file
 - [ ] Make default lines as 10
-- [ ] Call head function of headLib.js from head.js
 - [ ] Second option will override first option
 - [ ] Throw error if maxLine and maxBytes both are given
 - [ ] Throw error if maxLines or maxBytes is 0
 - [ ] Throw error if maxLine and maxBytes both are 0 
 - [ ] Investigate head
+- [ ] Call head function of headLib.js from head.js
 
 **MAYBE**
-
+- [ ] Consider tests for head function in a seperate file
+- [ ] Consider richer structure for headMain
 
 **DONE**
 
+- [x] Write parseArgs function
+- [x] Write headMain function
+- [x] Write test for parseArgs
+- [x] Write test for headMain
 - [x] Write test for contentsUpto
 - [x] Write test for getDelimiter
 - [x] Extract common function
