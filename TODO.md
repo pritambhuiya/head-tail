@@ -3,7 +3,6 @@
 - [ ] Report error if maxLine and maxBytes both are given or get 0 as value
 - [ ] Investigate head
 - [ ] Call head function of headLib.js from head.js
-- [ ] Accept file
 - [ ] Implement multiple files
 
 **MAYBE**
@@ -11,6 +10,7 @@
 
 **DONE**
 
+- [x] Accept file
 - [x] Implement multiple fileContents
 - [x] Consider tests for head function in a seperate file
 - [x] Consider change of internal contracts for parseArgs, head & firstNElements

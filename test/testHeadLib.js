@@ -39,19 +39,11 @@ describe('head', () => {
 });
 
 describe('headMain', () => {
-  it('Should work on overridden -c', () => {
-    assert.strictEqual(headMain('-c', 2, '-c', 1, 'a\nb\nc'), 'a');
+  it('Should work for single file , no option given', () => {
+    assert.strictEqual(headMain('test/file1.txt'), 'a b\nc d');
   });
 
-  it('Should work on overridden -n', () => {
-    assert.strictEqual(headMain('-n', 2, '-n', 1, 'a\nb\nc'), 'a');
-  });
-
-  it('Should return all contets when only contents is given', () => {
-    assert.strictEqual(headMain('a\nb\nc'), 'a\nb\nc');
-  });
-
-  it('Should work for multi-contents', () => {
-    assert.strictEqual(headMain('a\nb\nc', 'a\nb'), 'a\nb\nc,a\nb');
+  it('Should work for single file , option given', () => {
+    assert.strictEqual(headMain('-c', '2', 'test/file1.txt'), 'a ');
   });
 });

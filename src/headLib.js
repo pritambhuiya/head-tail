@@ -1,4 +1,5 @@
 const { parseArgs } = require('./paresArgs.js');
+const fs = require('fs');
 
 const split = (contents, seperator) => contents.split(seperator);
 
@@ -19,10 +20,11 @@ const head = (fileContents, delimiter, value) => {
 };
 
 const headMain = (...args) => {
-  const { fileContents, option, value } = parseArgs(args);
-  const delimiter = option === '-c' ? '' : '\n';
+  const { filePaths, option, value } = parseArgs(args);
+  const fileContents = fs.readFileSync(filePaths[0], 'utf8');
 
-  return head(fileContents, delimiter, value) + '';
+  const delimiter = option === '-c' ? '' : '\n';
+  return head([fileContents], delimiter, value) + '';
 };
 
 exports.firstNElements = firstNElements;

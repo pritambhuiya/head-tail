@@ -13,7 +13,7 @@ const updateParameters = ({ option, value }, key, limit) => {
 };
 
 const parseArgs = (args) => {
-  const fileContents = [];
+  const filePaths = [];
   let parameters = { option: '-c-n', value: 10 };
   let index = 0;
 
@@ -25,12 +25,12 @@ const parseArgs = (args) => {
     }
 
     if (!isFinite(args[index])) {
-      fileContents.push(args[index]);
+      filePaths.push(args[index]);
     }
     index++;
   }
 
-  parameters.fileContents = fileContents;
+  parameters.filePaths = filePaths;
   return parameters;
 };
 
