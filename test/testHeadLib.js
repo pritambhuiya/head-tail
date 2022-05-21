@@ -1,5 +1,4 @@
-const { contentsUpto, head, headMain } = require('../src/headLib.js');
-
+const { contentsUpto, head } = require('../src/headLib.js');
 const assert = require('assert');
 
 describe('contentsUpto', () => {
@@ -35,15 +34,5 @@ describe('head', () => {
   it('Should work for multi-contents', () => {
     assert.deepStrictEqual(head(['a\nb\nc', 'a\nb'], '\n', 10),
       ['a\nb\nc', 'a\nb']);
-  });
-});
-
-describe('headMain', () => {
-  it('Should work for single file , no option given', () => {
-    assert.strictEqual(headMain('test/file1.txt'), 'a b\nc d');
-  });
-
-  it('Should work for single file , option given', () => {
-    assert.strictEqual(headMain('-c', '2', 'test/file1.txt'), 'a ');
   });
 });

@@ -2,7 +2,7 @@
 
 - [ ] Report error if maxLine and maxBytes both are given or get 0 as value
 - [ ] Investigate head
-- [ ] Call head function of headLib.js from head.js
+- [ ] Display file name if more than one files are given
 - [ ] Implement multiple files
 
 **MAYBE**
@@ -10,6 +10,9 @@
 
 **DONE**
 
+- [x] Test readFileSync
+- [x] Call head function of headLib.js from head.js
+- [x] Moved test of headMain function in testHeadMain.js
 - [x] Accept file
 - [x] Implement multiple fileContents
 - [x] Consider tests for head function in a seperate file
