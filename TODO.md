@@ -12,6 +12,8 @@
 
 **DONE**
 
+- [x] Consider parseArgs function in a seperate file
+- [x] Consider testParseArgs function in a seperate file
 - [x] Second option will override first option
 - [x] Implement ~~validateOption~~ setDefault function
 - [x] Make default lines as 10

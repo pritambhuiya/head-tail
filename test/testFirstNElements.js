@@ -1,4 +1,5 @@
 const { firstNElements } = require('../src/headLib.js');
+
 const assert = require('assert');
 
 describe('firstNElements', () => {
@@ -46,4 +47,3 @@ describe('firstNElements', () => {
       'a b');
   });
 });
-
