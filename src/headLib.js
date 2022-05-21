@@ -6,36 +6,18 @@ const join = (contents, delimiter) => contents.join(delimiter);
 
 const contentsUpto = (contents, upto) => contents.slice(0, upto);
 
-const firstNElements = (fileContents, { lines, bytes }) => {
-  const upto = lines || bytes;
-  const delimiter = bytes ? '' : '\n';
-
+const firstNElements = (fileContents, delimiter, upto) => {
   const contents = split(fileContents, delimiter);
   const requiredContents = contentsUpto(contents, upto);
 
   return join(requiredContents, delimiter);
 };
 
-const areBothValuesSet = ({ lines, bytes }) => lines && bytes;
-
-const areBothValuesZero = ({ lines, bytes }) => !(lines || bytes);
-
-const setDefault = (options) => {
-  if (areBothValuesZero(options)) {
-    options.lines = 10;
-  }
-  return options;
-};
-
 const head = (...args) => {
-  const { fileContents, options } = parseArgs(args);
+  const { fileContents, option, value } = parseArgs(args);
+  const delimiter = option === 'bytes' ? '' : '\n';
 
-  if (areBothValuesSet(options)) {
-    throw { message: 'Can not handle -n & -c.' };
-  }
-
-  setDefault(options);
-  return firstNElements(fileContents, options);
+  return firstNElements(fileContents, delimiter, value);
 };
 
 exports.firstNElements = firstNElements;

@@ -12,6 +12,7 @@
 
 **DONE**
 
+- [x] Consider change of internal contracts for parseArgs, head & firstNElements
 - [x] Make head work for only contents not file
 - [x] Refactor parseArgs
 - [x] Consider parseArgs function in a seperate file

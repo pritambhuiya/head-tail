@@ -1,32 +1,35 @@
-const setOptions = (option, value, parameters) => {
-  const switches = {
-    '-n': 'lines',
-    '-c': 'bytes'
-  };
+/* eslint-disable max-statements */
 
-  const key = switches[option];
-  parameters.options[key] = value;
+const mapOptionToWord = ({ option }) => option === '-c' ? 'bytes' : 'lines';
+
+const updateParameters = ({ option, value }, key, argument) => {
+  if (argument === 0) {
+    throw { message: 'Illegal count 0' };
+  }
+  let parameters = { option, value };
+
+  if (option.includes(key)) {
+    parameters = { option: key, value: argument };
+  }
   return parameters;
 };
 
-const isValueZero = (value) => value === 0;
-
 const parseArgs = (args) => {
-  let parameters = { options: { lines: 0, bytes: 0 } };
+  let parameters = { option: '-c-n', value: 10 };
+  let index = 0;
 
-  for (let index = 0; index < args.length; index++) {
-    if (args[index].startsWith('-')) {
-
-      if (isValueZero(args[index + 1])) {
-        throw { message: 'Illegal count 0' };
-      }
-
-      parameters = setOptions(args[index], args[index + 1], parameters);
+  while (index < args.length) {
+    const key = args[index];
+    if (key.startsWith('-')) {
+      parameters = updateParameters(parameters, key, args[index + 1]);
       index++;
     }
 
-    parameters.fileContents = args[index];
+    parameters.fileContents = key;
+    index++;
   }
+
+  parameters.option = mapOptionToWord(parameters);
   return parameters;
 };
 
