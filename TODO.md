@@ -7,11 +7,12 @@
 - [ ] Implement multiple files
 
 **MAYBE**
-- [ ] Consider tests for head function in a seperate file
 - [ ] Consider richer structure for headMain
 
 **DONE**
 
+- [x] Implement multiple fileContents
+- [x] Consider tests for head function in a seperate file
 - [x] Consider change of internal contracts for parseArgs, head & firstNElements
 - [x] Make head work for only contents not file
 - [x] Refactor parseArgs

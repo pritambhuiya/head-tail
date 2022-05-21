@@ -13,13 +13,19 @@ const firstNElements = (fileContents, delimiter, upto) => {
   return join(requiredContents, delimiter);
 };
 
-const head = (...args) => {
-  const { fileContents, option, value } = parseArgs(args);
-  const delimiter = option === 'bytes' ? '' : '\n';
+const head = (fileContents, delimiter, value) => {
+  return fileContents.map(content =>
+    firstNElements(content, delimiter, value));
+};
 
-  return firstNElements(fileContents, delimiter, value);
+const headMain = (...args) => {
+  const { fileContents, option, value } = parseArgs(args);
+  const delimiter = option === '-c' ? '' : '\n';
+
+  return head(fileContents, delimiter, value) + '';
 };
 
 exports.firstNElements = firstNElements;
 exports.contentsUpto = contentsUpto;
 exports.head = head;
+exports.headMain = headMain;

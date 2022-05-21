@@ -1,20 +1,19 @@
 /* eslint-disable max-statements */
 
-const mapOptionToWord = ({ option }) => option === '-c' ? 'bytes' : 'lines';
-
-const updateParameters = ({ option, value }, key, argument) => {
-  if (argument === 0) {
+const updateParameters = ({ option, value }, key, limit) => {
+  if (limit === 0) {
     throw { message: 'Illegal count 0' };
   }
-  let parameters = { option, value };
 
+  let parameters = { option, value };
   if (option.includes(key)) {
-    parameters = { option: key, value: argument };
+    parameters = { option: key, value: limit };
   }
   return parameters;
 };
 
 const parseArgs = (args) => {
+  const fileContents = [];
   let parameters = { option: '-c-n', value: 10 };
   let index = 0;
 
@@ -25,11 +24,13 @@ const parseArgs = (args) => {
       index++;
     }
 
-    parameters.fileContents = key;
+    if (!isFinite(args[index])) {
+      fileContents.push(args[index]);
+    }
     index++;
   }
 
-  parameters.option = mapOptionToWord(parameters);
+  parameters.fileContents = fileContents;
   return parameters;
 };
 

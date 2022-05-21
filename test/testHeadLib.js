@@ -1,4 +1,4 @@
-const { contentsUpto, head } = require('../src/headLib.js');
+const { contentsUpto, headMain } = require('../src/headLib.js');
 
 const assert = require('assert');
 
@@ -19,16 +19,20 @@ describe('contentsUpto', () => {
   });
 });
 
-describe('head', () => {
+describe('headMain', () => {
   it('Should work on overridden -c', () => {
-    assert.deepStrictEqual(head('-c', 2, '-c', 1, 'a\nb\nc'), 'a');
+    assert.strictEqual(headMain('-c', 2, '-c', 1, 'a\nb\nc'), 'a');
   });
 
   it('Should work on overridden -n', () => {
-    assert.deepStrictEqual(head('-n', 2, '-n', 1, 'a\nb\nc'), 'a');
+    assert.strictEqual(headMain('-n', 2, '-n', 1, 'a\nb\nc'), 'a');
   });
 
   it('Should return all contets when only contents is given', () => {
-    assert.deepStrictEqual(head('a\nb\nc'), 'a\nb\nc');
+    assert.strictEqual(headMain('a\nb\nc'), 'a\nb\nc');
+  });
+
+  it('Should work for multi-contents', () => {
+    assert.strictEqual(headMain('a\nb\nc', 'a\nb'), 'a\nb\nc,a\nb');
   });
 });
