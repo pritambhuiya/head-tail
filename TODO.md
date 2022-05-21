@@ -1,10 +1,10 @@
 **TODO**
 
-- [ ] Refactor parseArgs
-- [ ] Make head work for only contents not file
 - [ ] Report error if maxLine and maxBytes both are given or get 0 as value
 - [ ] Investigate head
 - [ ] Call head function of headLib.js from head.js
+- [ ] Accept file
+- [ ] Implement multiple files
 
 **MAYBE**
 - [ ] Consider tests for head function in a seperate file
@@ -12,6 +12,8 @@
 
 **DONE**
 
+- [x] Make head work for only contents not file
+- [x] Refactor parseArgs
 - [x] Consider parseArgs function in a seperate file
 - [x] Consider testParseArgs function in a seperate file
 - [x] Second option will override first option
