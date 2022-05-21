@@ -1,4 +1,5 @@
-const { getDelimiter, contentsUpto, parseArgs, headMain } = require('../src/headLib.js');
+const { getDelimiter, contentsUpto, parseArgs, head } =
+  require('../src/headLib.js');
 const assert = require('assert');
 
 describe('getDelimiter', () => {
@@ -14,7 +15,6 @@ describe('getDelimiter', () => {
 describe('contentsUpto', () => {
   it('Should return 1 element', () => {
     assert.deepStrictEqual(contentsUpto(['a'], 1), ['a']);
-    assert.deepStrictEqual(contentsUpto(['ab'], 1), ['ab']);
     assert.deepStrictEqual(contentsUpto(['a', 'b'], 1), ['a']);
   });
 
@@ -30,21 +30,32 @@ describe('contentsUpto', () => {
 });
 
 describe('parseArgs', () => {
-  it('Should return maxLines when args is -n', () => {
-    assert.strictEqual(parseArgs('-n'), 'maxLines');
+  it('Should return parameters of overridden -c -c', () => {
+    assert.deepStrictEqual(parseArgs(['-c', 2, '-c', 1, 'a\nb\nc']),
+      { fileContents: 'a\nb\nc', options: { maxBytes: 1, maxLines: 0 } });
   });
 
-  it('Should return maxBytes when args is -c', () => {
-    assert.strictEqual(parseArgs('-c'), 'maxBytes');
+  it('Should return parameters of overridden -n -n', () => {
+    assert.deepStrictEqual(parseArgs(['-n', 2, '-n', 1, 'a\nb\nc']),
+      { fileContents: 'a\nb\nc', options: { maxBytes: 0, maxLines: 1 } });
+  });
+
+  it('Should return parameters when only fileName is given', () => {
+    assert.deepStrictEqual(parseArgs(['a\nb\nc']),
+      { fileContents: 'a\nb\nc', options: { maxBytes: 0, maxLines: 0 } });
   });
 });
 
-describe('headMain', () => {
-  it('Should return first 2 lines when switch is -n', () => {
-    assert.strictEqual(headMain('a\nb\nc', '-n', 2), 'a\nb');
+describe('head', () => {
+  it('Should return parameters of overridden -c -c', () => {
+    assert.deepStrictEqual(head('-c', 2, '-c', 1, 'a\nb\nc'), 'a');
   });
 
-  it('Should return first 2 bytes when switch is -c', () => {
-    assert.strictEqual(headMain('a\nb\nc', '-c', 2), 'a\n');
+  it('Should return parameters of overridden -n -c', () => {
+    assert.deepStrictEqual(head('-n', 2, '-n', 1, 'a\nb\nc'), 'a');
+  });
+
+  it('Should return parameters when only fileName is given', () => {
+    assert.deepStrictEqual(head('a\nb\nc'), 'a\nb\nc');
   });
 });

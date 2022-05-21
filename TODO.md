@@ -1,11 +1,11 @@
 **TODO**
+
+- [ ] Refactor firstNelements, parseArgs, head
 - [ ] Implement validateOption function
 - [ ] Make head work for only contents not file
 - [ ] Make default lines as 10
 - [ ] Second option will override first option
-- [ ] Throw error if maxLine and maxBytes both are given
-- [ ] Throw error if maxLines or maxBytes is 0
-- [ ] Throw error if maxLine and maxBytes both are 0 
+- [ ] Report error if maxLine and maxBytes both are given or get 0 as value
 - [ ] Investigate head
 - [ ] Call head function of headLib.js from head.js
 
@@ -15,6 +15,7 @@
 
 **DONE**
 
+- [x] Consider renaming head & headMain
 - [x] Write parseArgs function
 - [x] Write headMain function
 - [x] Write test for parseArgs
