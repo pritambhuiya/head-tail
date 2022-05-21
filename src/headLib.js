@@ -5,9 +5,9 @@ const join = (contents, delimiter) => contents.join(delimiter);
 
 const contentsUpto = (contents, upto) => contents.slice(0, upto);
 
-const firstNElements = (fileContents, { maxLines, maxBytes }) => {
-  const upto = maxLines || maxBytes;
-  const delimiter = maxBytes ? '' : '\n';
+const firstNElements = (fileContents, { lines, bytes }) => {
+  const upto = lines || bytes;
+  const delimiter = bytes ? '' : '\n';
   const contents = split(fileContents, delimiter);
   const requiredContents = contentsUpto(contents, upto);
 
@@ -17,11 +17,11 @@ const firstNElements = (fileContents, { maxLines, maxBytes }) => {
 // eslint-disable-next-line max-statements
 const parseArgs = (args) => {
   const switches = {
-    '-n': { name: 'maxLines', value: 0 },
-    '-c': { name: 'maxBytes', value: 0 }
+    '-n': { name: 'lines', value: 0 },
+    '-c': { name: 'bytes', value: 0 }
   };
 
-  const parameters = { options: { maxLines: 0, maxBytes: 0 } };
+  const parameters = { options: { lines: 0, bytes: 0 } };
   for (let index = 0; index < args.length; index++) {
     if (args[index].startsWith('-')) {
 
@@ -38,7 +38,16 @@ const parseArgs = (args) => {
   return parameters;
 };
 
-const areBothValuesSet = ({ maxLines, maxBytes }) => maxLines && maxBytes;
+const areBothValuesSet = ({ lines, bytes }) => lines && bytes;
+
+const areBothValuesZero = ({ lines, bytes }) => !(lines || bytes);
+
+const setDefault = (options) => {
+  if (areBothValuesZero(options)) {
+    options.lines = 10;
+  }
+  return options;
+};
 
 const head = (...args) => {
   const { fileContents, options } = parseArgs(args);
@@ -47,6 +56,7 @@ const head = (...args) => {
     throw { message: 'Can not handle -n & -c.' };
   }
 
+  setDefault(options);
   return firstNElements(fileContents, options);
 };
 

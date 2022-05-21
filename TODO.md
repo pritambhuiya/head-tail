@@ -1,10 +1,7 @@
 **TODO**
 
-- [ ] Refactor  parseArgs
-- [ ] Implement validateOption function
+- [ ] Refactor parseArgs
 - [ ] Make head work for only contents not file
-- [ ] Make default lines as 10
-- [ ] Second option will override first option
 - [ ] Report error if maxLine and maxBytes both are given or get 0 as value
 - [ ] Investigate head
 - [ ] Call head function of headLib.js from head.js
@@ -15,6 +12,10 @@
 
 **DONE**
 
+- [x] Second option will override first option
+- [x] Implement ~~validateOption~~ setDefault function
+- [x] Make default lines as 10
+- [x] Consider rernaming maxLines & maxBytes to lines & bytes
 - [x] extract areBothValueSet
 - [x] Refactor firstNelements, head
 - [x] Consider renaming head & headMain
@@ -49,5 +50,3 @@
 - [x] Create testHead.js
 - [x] Verify mocha exists
 - [x] Create directory structure
-
-

@@ -1,5 +1,4 @@
-const { contentsUpto, parseArgs, head } =
-  require('../src/headLib.js');
+const { contentsUpto, parseArgs, head } = require('../src/headLib.js');
 const assert = require('assert');
 
 describe('contentsUpto', () => {
@@ -22,30 +21,30 @@ describe('contentsUpto', () => {
 describe('parseArgs', () => {
   it('Should return parameters of overridden -c -c', () => {
     assert.deepStrictEqual(parseArgs(['-c', 2, '-c', 1, 'a\nb\nc']),
-      { fileContents: 'a\nb\nc', options: { maxBytes: 1, maxLines: 0 } });
+      { fileContents: 'a\nb\nc', options: { bytes: 1, lines: 0 } });
   });
 
   it('Should return parameters of overridden -n -n', () => {
     assert.deepStrictEqual(parseArgs(['-n', 2, '-n', 1, 'a\nb\nc']),
-      { fileContents: 'a\nb\nc', options: { maxBytes: 0, maxLines: 1 } });
+      { fileContents: 'a\nb\nc', options: { bytes: 0, lines: 1 } });
   });
 
   it('Should return parameters when only fileName is given', () => {
     assert.deepStrictEqual(parseArgs(['a\nb\nc']),
-      { fileContents: 'a\nb\nc', options: { maxBytes: 0, maxLines: 0 } });
+      { fileContents: 'a\nb\nc', options: { bytes: 0, lines: 0 } });
   });
 });
 
 describe('head', () => {
-  it('Should return parameters of overridden -c -c', () => {
+  it('Should work on overridden -c', () => {
     assert.deepStrictEqual(head('-c', 2, '-c', 1, 'a\nb\nc'), 'a');
   });
 
-  it('Should return parameters of overridden -n -c', () => {
+  it('Should work on overridden -n', () => {
     assert.deepStrictEqual(head('-n', 2, '-n', 1, 'a\nb\nc'), 'a');
   });
 
-  it.skip('Should return all contets when only contents is given', () => {
+  it('Should return all contets when only contents is given', () => {
     assert.deepStrictEqual(head('a\nb\nc'), 'a\nb\nc');
   });
 });
