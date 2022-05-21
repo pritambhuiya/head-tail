@@ -1,16 +1,6 @@
-const { getDelimiter, contentsUpto, parseArgs, head } =
+const { contentsUpto, parseArgs, head } =
   require('../src/headLib.js');
 const assert = require('assert');
-
-describe('getDelimiter', () => {
-  it('Should return \\n for key maxLines', () => {
-    assert.strictEqual(getDelimiter('maxLines'), '\n');
-  });
-
-  it('Should return \'\' for key maxBytes', () => {
-    assert.strictEqual(getDelimiter('maxBytes'), '');
-  });
-});
 
 describe('contentsUpto', () => {
   it('Should return 1 element', () => {
@@ -55,7 +45,7 @@ describe('head', () => {
     assert.deepStrictEqual(head('-n', 2, '-n', 1, 'a\nb\nc'), 'a');
   });
 
-  it('Should return parameters when only fileName is given', () => {
+  it.skip('Should return all contets when only contents is given', () => {
     assert.deepStrictEqual(head('a\nb\nc'), 'a\nb\nc');
   });
 });

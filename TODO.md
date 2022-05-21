@@ -1,6 +1,6 @@
 **TODO**
 
-- [ ] Refactor firstNelements, parseArgs, head
+- [ ] Refactor  parseArgs
 - [ ] Implement validateOption function
 - [ ] Make head work for only contents not file
 - [ ] Make default lines as 10
@@ -15,6 +15,8 @@
 
 **DONE**
 
+- [x] extract areBothValueSet
+- [x] Refactor firstNelements, head
 - [x] Consider renaming head & headMain
 - [x] Write parseArgs function
 - [x] Write headMain function
@@ -47,3 +49,5 @@
 - [x] Create testHead.js
 - [x] Verify mocha exists
 - [x] Create directory structure
+
+

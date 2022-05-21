@@ -3,22 +3,13 @@ const split = (contents, seperator) => contents.split(seperator);
 
 const join = (contents, delimiter) => contents.join(delimiter);
 
-const getKey = (object) => Object.keys(object);
-
-const getValue = (object) => Object.values(object);
-
 const contentsUpto = (contents, upto) => contents.slice(0, upto);
 
-const getDelimiter = (key) => {
-  const delimiter = { 'maxLines': '\n', 'maxBytes': '' };
-  return delimiter[key];
-};
-
 const firstNElements = (fileContents, { maxLines, maxBytes }) => {
-  const option = maxBytes ? { maxBytes } : { maxLines };
-  const delimiter = getDelimiter(getKey(option));
+  const upto = maxLines || maxBytes;
+  const delimiter = maxBytes ? '' : '\n';
   const contents = split(fileContents, delimiter);
-  const requiredContents = contentsUpto(contents, getValue(option));
+  const requiredContents = contentsUpto(contents, upto);
 
   return join(requiredContents, delimiter);
 };
@@ -47,21 +38,19 @@ const parseArgs = (args) => {
   return parameters;
 };
 
+const areBothValuesSet = ({ maxLines, maxBytes }) => maxLines && maxBytes;
+
 const head = (...args) => {
   const { fileContents, options } = parseArgs(args);
-  if (options.maxLines && options.maxBytes) {
-    throw { message: 'Can not handle -n & -c.' };
-  }
 
-  if (options.maxLines === 0 && options.maxBytes === 0) {
-    options.maxLines = 10;
+  if (areBothValuesSet(options)) {
+    throw { message: 'Can not handle -n & -c.' };
   }
 
   return firstNElements(fileContents, options);
 };
 
 exports.firstNElements = firstNElements;
-exports.getDelimiter = getDelimiter;
 exports.contentsUpto = contentsUpto;
 exports.parseArgs = parseArgs;
 exports.head = head;
