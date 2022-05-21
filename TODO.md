@@ -2,14 +2,14 @@
 
 - [ ] Report error if maxLine and maxBytes both are given or get 0 as value
 - [ ] Investigate head
-- [ ] Display file name if more than one files are given
-- [ ] Implement multiple files
 
 **MAYBE**
-- [ ] Consider richer structure for headMain
 
 **DONE**
 
+- [x] Consider richer structure for headMain
+- [x] Display file name if more than one files are given
+- [x] Implement multiple files
 - [x] Test readFileSync
 - [x] Call head function of headLib.js from head.js
 - [x] Moved test of headMain function in testHeadMain.js

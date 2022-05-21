@@ -18,12 +18,28 @@ const head = (fileContents, delimiter, value) => {
     firstNElements(content, delimiter, value));
 };
 
+const readAllFiles = (readFile, filePaths) =>
+  filePaths.map((filePath) => readFile(filePath, 'utf8'));
+
+const formatContents = (fileContents, filePaths) => {
+  if (filePaths.length === 1) {
+    return fileContents;
+  }
+  const contents = [];
+
+  for (let index = 0; index < filePaths.length; index++) {
+    contents.push(`==> ${filePaths[index]} <==`, fileContents[index]);
+  }
+  return contents;
+};
+
 const headMain = (readFile, ...args) => {
   const { filePaths, option, value } = parseArgs(args);
-  const fileContents = readFile(filePaths[0], 'utf8');
+  const fileContents = readAllFiles(readFile, filePaths);
 
   const delimiter = option === '-c' ? '' : '\n';
-  return head([fileContents], delimiter, value) + '';
+  const requiredContents = head(fileContents, delimiter, value);
+  return formatContents(requiredContents, filePaths).join('\n');
 };
 
 exports.firstNElements = firstNElements;
