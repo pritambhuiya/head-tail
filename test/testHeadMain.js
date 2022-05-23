@@ -33,10 +33,27 @@ describe('headMain', () => {
       'usage: head [-n lines | -c bytes] [file ...]');
   });
 
-  it.skip('Should throw error because of -c & -n', () => {
+  it('Should work if option & value are together', () => {
+    const mockReadFileSync = shouldReturn({ 'file1.txt': 'hello' });
+    assert.strictEqual(headMain(mockReadFileSync, '-c2', 'file1.txt'),
+      'he');
+  });
+
+  it('Should return undefined because of -c & -n', () => {
     const mockReadFileSync = shouldReturn('file1.txt', 'hello');
-    assert.throws(() => headMain(mockReadFileSync, 'file2.txt'), {
-      name: 'FileReadError', message: 'Unable to read missing.txt',
-    });
+    assert.strictEqual(headMain(mockReadFileSync, '-c1', '-n2', 'file1.txt'),
+      undefined);
+  });
+
+  it('Should return undefined because of 0 as value', () => {
+    const mockReadFileSync = shouldReturn('file1.txt', 'hello');
+    assert.strictEqual(headMain(mockReadFileSync, '-c1', '-n2', 'file1.txt'),
+      undefined);
+  });
+
+  it.skip('Should throw contents & errors while reading files', () => {
+    const mockReadFileSync = shouldReturn('file1.txt', 'hello');
+    assert.throws(() => headMain(mockReadFileSync, 'file2.txt'),
+      { name: 'FileReadError', message: 'Unable to read missing.txt' });
   });
 });

@@ -1,12 +1,14 @@
 **TODO**
 
-- [ ] Should work for -optionValue & -option Value
-- [ ] Investigate head
+- [ ] Show show contents & error(if found)
 
 **MAYBE**
 
 **DONE**
 
+- [x] Investigate head
+- [x] Should work for -optionValue & -option Value
+- [x] Consider moving helper functions into helpers.js
 - [x] Report error if unable to read file
 - [x] Report error if maxLine and maxBytes both are given
 - [x] Report error if get 0 as value

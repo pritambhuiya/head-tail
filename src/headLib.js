@@ -1,4 +1,5 @@
 const { parseArgs } = require('./paresArgs.js');
+const { readAllFiles, formatContents, seperateArgs } = require('./helpers.js');
 
 const split = (contents, seperator) => contents.split(seperator);
 
@@ -18,29 +19,10 @@ const head = (fileContents, delimiter, value) => {
     firstNElements(content, delimiter, value));
 };
 
-const readAllFiles = (readFile, filePaths) => {
-  try {
-    return filePaths.map((filePath) => readFile(filePath, 'utf8'));
-  } catch (error) {
-    throw { name: 'FileRead Error', message: 'Can\'t read file' };
-  }
-};
-
-const formatContents = (fileContents, filePaths) => {
-  if (filePaths.length === 1) {
-    return fileContents;
-  }
-  const contents = [];
-
-  for (let index = 0; index < filePaths.length; index++) {
-    contents.push(`==> ${filePaths[index]} <==`, fileContents[index]);
-  }
-  return contents;
-};
-
 const headMain = (readFile, ...args) => {
   try {
-    const { filePaths, option, value } = parseArgs(args);
+    const seperatedArgs = seperateArgs(args);
+    const { filePaths, option, value } = parseArgs(seperatedArgs);
     const fileContents = readAllFiles(readFile, filePaths);
 
     if (option === '--help') {
