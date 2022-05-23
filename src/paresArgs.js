@@ -1,15 +1,21 @@
+/* eslint-disable complexity */
 /* eslint-disable max-statements */
 
-const updateParameters = ({ option, value }, key, limit) => {
+const updateParameters = ({ option }, key, limit) => {
+  const switches = ['-n', '-c'];
+
   if (limit === 0) {
-    throw { message: 'Illegal count 0' };
+    throw { name: 'Parse error', message: 'Illegal count 0' };
   }
 
-  let parameters = { option, value };
-  if (option.includes(key)) {
-    parameters = { option: key, value: limit };
+  if (!switches.includes(key)) {
+    return { option: '--help' };
   }
-  return parameters;
+
+  if (!option.includes(key)) {
+    throw { name: 'Parse error', message: 'Can\'t work on -c & -n' };
+  }
+  return { option: key, value: limit };
 };
 
 const parseArgs = (args) => {
@@ -20,7 +26,7 @@ const parseArgs = (args) => {
   while (index < args.length) {
     const key = args[index];
     if (key.startsWith('-')) {
-      parameters = updateParameters(parameters, key, args[index + 1]);
+      parameters = updateParameters(parameters, key, +args[index + 1]);
       index++;
     }
 
@@ -31,6 +37,10 @@ const parseArgs = (args) => {
   }
 
   parameters.filePaths = filePaths;
+  if (parameters.option === '-c-n') {
+    parameters.option = '-n';
+  }
+
   return parameters;
 };
 

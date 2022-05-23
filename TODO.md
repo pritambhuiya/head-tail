@@ -1,12 +1,15 @@
 **TODO**
 
-- [ ] Report error if maxLine and maxBytes both are given or get 0 as value
+- [ ] Should work for -optionValue & -option Value
 - [ ] Investigate head
 
 **MAYBE**
 
 **DONE**
 
+- [x] Report error if unable to read file
+- [x] Report error if maxLine and maxBytes both are given
+- [x] Report error if get 0 as value
 - [x] Consider richer structure for headMain
 - [x] Display file name if more than one files are given
 - [x] Implement multiple files

@@ -18,8 +18,13 @@ const head = (fileContents, delimiter, value) => {
     firstNElements(content, delimiter, value));
 };
 
-const readAllFiles = (readFile, filePaths) =>
-  filePaths.map((filePath) => readFile(filePath, 'utf8'));
+const readAllFiles = (readFile, filePaths) => {
+  try {
+    return filePaths.map((filePath) => readFile(filePath, 'utf8'));
+  } catch (error) {
+    throw { name: 'FileRead Error', message: 'Can\'t read file' };
+  }
+};
 
 const formatContents = (fileContents, filePaths) => {
   if (filePaths.length === 1) {
@@ -34,12 +39,20 @@ const formatContents = (fileContents, filePaths) => {
 };
 
 const headMain = (readFile, ...args) => {
-  const { filePaths, option, value } = parseArgs(args);
-  const fileContents = readAllFiles(readFile, filePaths);
+  try {
+    const { filePaths, option, value } = parseArgs(args);
+    const fileContents = readAllFiles(readFile, filePaths);
 
-  const delimiter = option === '-c' ? '' : '\n';
-  const requiredContents = head(fileContents, delimiter, value);
-  return formatContents(requiredContents, filePaths).join('\n');
+    if (option === '--help') {
+      return 'usage: head [-n lines | -c bytes] [file ...]';
+    }
+
+    const delimiter = option === '-c' ? '' : '\n';
+    const requiredContents = head(fileContents, delimiter, value);
+    return formatContents(requiredContents, filePaths).join('\n');
+  } catch (error) {
+    console.log(`${error.name}: ${error.message}`);
+  }
 };
 
 exports.firstNElements = firstNElements;
