@@ -59,9 +59,4 @@ describe('parseArgs', () => {
       name: 'head', message: 'illegal option -- -b', option: '--help'
     });
   });
-
-  it('Should throw error because of no arguments', () => {
-    assert.throws(() => parseArgs([]),
-      { name: 'FileRead Error', message: 'Can\'t read file' });
-  });
 });
