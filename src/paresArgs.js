@@ -1,59 +1,69 @@
 /* eslint-disable max-statements */
-
-const { warnIfFilesNotFound, warnIfMultipleOptionsAreEntered,
-  validateOptionAndLimit } = require('./validators.js');
-
-const pushIfArgIsNotNumber = (filePaths, argument) => {
-  if (!isFinite(argument)) {
-    filePaths.push(argument);
-  }
-};
-
-const validate = (argsObjectsArray) => {
-  validateOptionAndLimit(argsObjectsArray);
-
-  if (argsObjectsArray.length < 2) {
-    return argsObjectsArray[0];
-  }
-
-  for (let index = 0; index < argsObjectsArray.length - 1; index++) {
-    warnIfMultipleOptionsAreEntered(argsObjectsArray.slice(index, index + 2));
-  }
-};
-
-const filterArgs = (argsObjectsArray) => {
-  if (argsObjectsArray.length === 0) {
-    return { option: '-n', limit: 10 };
-  }
-
-  validate(argsObjectsArray);
-  return argsObjectsArray[argsObjectsArray.length - 1];
-};
-
 const isOption = (arg) => arg.startsWith('-');
 
+const doesNoFileExist = ({ filePaths }) => filePaths.length === 0;
+
+const isOptionNotValid = (flag) => !['-c', '-n'].includes(flag);
+
+const validateOption = ({ flag }) => {
+  if (isOptionNotValid(flag)) {
+    throw {
+      name: 'head', message: `illegal option -- ${flag}`, option: '--help'
+    };
+  }
+};
+
+const validateLimit = ({ flag, count }) => {
+  if (count <= 0 || !isFinite(count)) {
+    const option = flag === '-c' ? 'byte' : 'line';
+    throw { name: 'head', message: `illegal ${option} count -- ${count}` };
+  }
+};
+
+const validateSameOptionOrNot = (options) => {
+  if (options.length === 0) {
+    return;
+  }
+
+  options.reduce((option1, option2) => {
+    if (option1 !== option2) {
+      throw { name: 'head', message: 'can\'t combine line and byte counts' };
+    }
+    return option2;
+  });
+};
+
+const validateOptionAndLimit = (args, index, optionLimitPair) => {
+  const flagCountPair = { flag: args[index], count: args[index + 1] };
+  validateOption(flagCountPair);
+  validateLimit(flagCountPair);
+
+  optionLimitPair.option = flagCountPair.flag;
+  optionLimitPair.limit = flagCountPair.count;
+};
+
 const parseArgs = (args) => {
-  const argsObject = [];
-  const filePaths = [];
   let index = 0;
+  const options = [];
+  const optionLimitPair = { option: '-n', limit: 10, filePaths: [] };
 
   while (index < args.length) {
-    const arg = args[index];
-    const nextArg = args[index + 1];
-
-    if (isOption(arg)) {
-      argsObject.push({ option: arg, limit: nextArg });
+    if (isOption(args[index])) {
+      validateOptionAndLimit(args, index, optionLimitPair);
+      options.push(args[index]);
       index++;
-    }
 
-    pushIfArgIsNotNumber(filePaths, args[index]);
+    } else {
+      optionLimitPair.filePaths.push(args[index]);
+    }
     index++;
   }
 
-  const filteredArgs = filterArgs(argsObject);
-  warnIfFilesNotFound(filePaths);
-  filteredArgs.filePaths = filePaths;
-  return filteredArgs;
+  validateSameOptionOrNot(options);
+  if (doesNoFileExist(optionLimitPair)) {
+    throw { name: 'FileRead Error', message: 'Can\'t read file' };
+  }
+  return optionLimitPair;
 };
 
 exports.parseArgs = parseArgs;

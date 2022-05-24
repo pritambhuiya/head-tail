@@ -30,7 +30,7 @@ describe('headMain', () => {
   it('Should show usage when wrong option is encountered', () => {
     const mockReadFileSync = shouldReturn({ 'file1.txt': 'hello' });
     assert.throws(() => headMain(mockReadFileSync, '-a', '1', 'file1.txt'),
-      { name: 'head', message: 'illegal option -- -a', code: '--help' });
+      { name: 'head', message: 'illegal option -- -a', option: '--help' });
   });
 
   it('Should work if option & value are together', () => {

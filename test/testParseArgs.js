@@ -40,17 +40,24 @@ describe('parseArgs', () => {
 
   it('Should throw error because of invalid option, option: --help', () => {
     assert.throws(() => parseArgs(['-a', '1', 'file1.txt']),
-      { name: 'head', message: 'illegal option -- -a', code: '--help' });
+      { name: 'head', message: 'illegal option -- -a', option: '--help' });
   });
 
   it('Should throw error because of invalid option & zero together', () => {
     assert.throws(() => parseArgs(['-a', '0', 'file1.txt']),
-      { name: 'head', message: 'illegal option -- -a', code: '--help' });
+      { name: 'head', message: 'illegal option -- -a', option: '--help' });
   });
 
   it('Should throw error because of non-finite value', () => {
     assert.throws(() => parseArgs(['-a', 'b', 'file1.txt']),
-      { name: 'head', message: 'illegal option -- -a', code: '--help' });
+      { name: 'head', message: 'illegal option -- -a', option: '--help' });
+  });
+
+  it('Should throw error because of -c1, -n2, -b3', () => {
+    assert.throws(() => parseArgs(['-c', '1', '-n', '2', '-b', '3',
+      'file1.txt']), {
+      name: 'head', message: 'illegal option -- -b', option: '--help'
+    });
   });
 
   it('Should throw error because of no arguments', () => {
