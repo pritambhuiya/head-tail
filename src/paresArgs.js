@@ -1,8 +1,6 @@
 /* eslint-disable max-statements */
 const isOption = (arg) => arg.startsWith('-');
 
-const doesNoFileExist = ({ filePaths }) => filePaths.length === 0;
-
 const isOptionNotValid = (flag) => !['-c', '-n'].includes(flag);
 
 const validateOption = ({ flag }) => {
@@ -20,50 +18,49 @@ const validateLimit = ({ flag, count }) => {
   }
 };
 
-const validateSameOptionOrNot = (options) => {
-  if (options.length === 0) {
-    return;
-  }
-
-  options.reduce((option1, option2) => {
-    if (option1 !== option2) {
+const validateDifferentOptions = ([firstOption, ...restOptions]) => {
+  return restOptions.reduce((firstOption, option) => {
+    if (option !== firstOption) {
       throw { name: 'head', message: 'can\'t combine line and byte counts' };
     }
-    return option2;
-  });
+    return firstOption;
+  }, firstOption);
 };
 
-const validateOptionAndLimit = (args, index, optionLimitPair) => {
-  const flagCountPair = { flag: args[index], count: args[index + 1] };
+const validateOptionAndLimit = (flagCountPair, parsedArguments) => {
   validateOption(flagCountPair);
   validateLimit(flagCountPair);
 
-  optionLimitPair.option = flagCountPair.flag;
-  optionLimitPair.limit = flagCountPair.count;
+  parsedArguments.option = flagCountPair.flag;
+  parsedArguments.limit = flagCountPair.count;
 };
+
+const hasFileEncountered = ({ filePaths }) => filePaths.length !== 0;
+
+const getAllFilePaths = (args, index) => args.slice(index);
 
 const parseArgs = (args) => {
   let index = 0;
   const options = [];
-  const optionLimitPair = { option: '-n', limit: 10, filePaths: [] };
+  const parsedArguments = { option: '-n', limit: 10, filePaths: [] };
 
-  while (index < args.length) {
+  while (!hasFileEncountered(parsedArguments)) {
     if (isOption(args[index])) {
-      validateOptionAndLimit(args, index, optionLimitPair);
+      const flagCountPair = { flag: args[index], count: args[index + 1] };
+      validateOptionAndLimit(flagCountPair, parsedArguments);
       options.push(args[index]);
       index++;
 
     } else {
-      optionLimitPair.filePaths.push(args[index]);
+      parsedArguments.filePaths.push(args[index]);
     }
     index++;
   }
 
-  validateSameOptionOrNot(options);
-  if (doesNoFileExist(optionLimitPair)) {
-    throw { name: 'FileRead Error', message: 'Can\'t read file' };
-  }
-  return optionLimitPair;
+  const filePaths = getAllFilePaths(args, index);
+  parsedArguments.filePaths.push(...filePaths);
+  validateDifferentOptions(options);
+  return parsedArguments;
 };
 
 exports.parseArgs = parseArgs;
