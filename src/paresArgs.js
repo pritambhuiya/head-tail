@@ -1,8 +1,7 @@
 /* eslint-disable max-statements */
 
-const { warnIfFilesNotFound, warnIfOptionIsInvalid,
-  warnIfValueLessThanEqualZero, warnIfMultipleOptionsAreEntered } =
-  require('./errorHandlingFunctions.js');
+const { warnIfFilesNotFound, warnIfMultipleOptionsAreEntered,
+  validateOptionAndLimit } = require('./validators.js');
 
 const pushIfArgIsNotNumber = (filePaths, argument) => {
   if (!isFinite(argument)) {
@@ -10,34 +9,28 @@ const pushIfArgIsNotNumber = (filePaths, argument) => {
   }
 };
 
-const validateOption = (argObject) => {
-  warnIfValueLessThanEqualZero(argObject);
-  warnIfOptionIsInvalid(argObject);
-};
+const validate = (argsObjectsArray) => {
+  validateOptionAndLimit(argsObjectsArray);
 
-const validateAllOptions = (argsObjectsArray) => {
+  if (argsObjectsArray.length < 2) {
+    return argsObjectsArray[0];
+  }
+
   for (let index = 0; index < argsObjectsArray.length - 1; index++) {
-    const argObject = argsObjectsArray[index];
-    validateOption(argObject);
-
     warnIfMultipleOptionsAreEntered(argsObjectsArray.slice(index, index + 2));
   }
 };
 
 const filterArgs = (argsObjectsArray) => {
   if (argsObjectsArray.length === 0) {
-    return { option: '-n', value: 10 };
+    return { option: '-n', limit: 10 };
   }
 
-  if (argsObjectsArray.length < 2) {
-    validateOption(argsObjectsArray[0]);
-    return argsObjectsArray[0];
-  }
-
-  validateAllOptions(argsObjectsArray);
+  validate(argsObjectsArray);
   return argsObjectsArray[argsObjectsArray.length - 1];
-
 };
+
+const isOption = (arg) => arg.startsWith('-');
 
 const parseArgs = (args) => {
   const argsObject = [];
@@ -48,11 +41,9 @@ const parseArgs = (args) => {
     const arg = args[index];
     const nextArg = args[index + 1];
 
-    if (arg.startsWith('-')) {
-      if (isFinite(nextArg)) {
-        argsObject.push({ option: arg, value: nextArg });
-        index++;
-      }
+    if (isOption(arg)) {
+      argsObject.push({ option: arg, limit: nextArg });
+      index++;
     }
 
     pushIfArgIsNotNumber(filePaths, args[index]);

@@ -5,22 +5,22 @@ const assert = require('assert');
 describe('parseArgs', () => {
   it('Should return parameters of overridden -c -c', () => {
     assert.deepStrictEqual(parseArgs(['-c', '2', '-c', '1', 'a\nb\nc']),
-      { option: '-c', value: '1', filePaths: ['a\nb\nc'] });
+      { option: '-c', limit: '1', filePaths: ['a\nb\nc'] });
   });
 
   it('Should return parameters of overridden -n -n', () => {
     assert.deepStrictEqual(parseArgs(['-n', 2, '-n', 1, 'a\nb\nc']),
-      { filePaths: ['a\nb\nc'], option: '-n', value: 1 });
+      { filePaths: ['a\nb\nc'], option: '-n', limit: 1 });
   });
 
   it('Should return parameters when only fileName is given, option: -n', () => {
     assert.deepStrictEqual(parseArgs(['a\nb\nc']),
-      { option: '-n', value: 10, filePaths: ['a\nb\nc'] });
+      { option: '-n', limit: 10, filePaths: ['a\nb\nc'] });
   });
 
   it('Should return files name, option: -n', () => {
     assert.deepStrictEqual(parseArgs(['file1.txt']),
-      { option: '-n', value: 10, filePaths: ['file1.txt'] });
+      { option: '-n', limit: 10, filePaths: ['file1.txt'] });
   });
 
   it('Should throw error because of 0', () => {
@@ -38,8 +38,18 @@ describe('parseArgs', () => {
       { name: 'head', message: 'can\'t combine line and byte counts' });
   });
 
-  it('Should return parameters, option: --help', () => {
+  it('Should throw error because of invalid option, option: --help', () => {
     assert.throws(() => parseArgs(['-a', '1', 'file1.txt']),
+      { name: 'head', message: 'illegal option -- -a', code: '--help' });
+  });
+
+  it('Should throw error because of invalid option & zero together', () => {
+    assert.throws(() => parseArgs(['-a', '0', 'file1.txt']),
+      { name: 'head', message: 'illegal option -- -a', code: '--help' });
+  });
+
+  it('Should throw error because of non-finite value', () => {
+    assert.throws(() => parseArgs(['-a', 'b', 'file1.txt']),
       { name: 'head', message: 'illegal option -- -a', code: '--help' });
   });
 
