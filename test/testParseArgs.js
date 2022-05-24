@@ -4,8 +4,8 @@ const assert = require('assert');
 
 describe('parseArgs', () => {
   it('Should return parameters of overridden -c -c', () => {
-    assert.deepStrictEqual(parseArgs(['-c', 2, '-c', 1, 'a\nb\nc']),
-      { filePaths: ['a\nb\nc'], option: '-c', value: 1 });
+    assert.deepStrictEqual(parseArgs(['-c', '2', '-c', '1', 'a\nb\nc']),
+      { option: '-c', value: '1', filePaths: ['a\nb\nc'] });
   });
 
   it('Should return parameters of overridden -n -n', () => {
@@ -23,19 +23,28 @@ describe('parseArgs', () => {
       { option: '-n', value: 10, filePaths: ['file1.txt'] });
   });
 
-  it('Should return parameters, option: --help', () => {
-    assert.deepStrictEqual(parseArgs(['-a', 2, 'a\nb\nc']),
-      { filePaths: ['a\nb\nc'], option: '--help' });
-  });
-
   it('Should throw error because of 0', () => {
     assert.throws(() => parseArgs(['-c', '0', '-n', '1', 'a\nb\nc']),
-      { name: 'Parse error', message: 'Illegal count 0' });
+      { name: 'head', message: 'illegal byte count -- 0' });
+  });
+
+  it('Should throw error because of negative limit', () => {
+    assert.throws(() => parseArgs(['-c', '-1', '-n', '1', 'a\nb\nc']),
+      { name: 'head', message: 'illegal byte count -- -1' });
   });
 
   it('Should throw error because of -c & -n', () => {
     assert.throws(() => parseArgs(['-c', '1', '-n', '1', 'a\nb\nc']),
-      { name: 'Parse error', message: 'Can\'t work on -c & -n' });
+      { name: 'head', message: 'can\'t combine line and byte counts' });
   });
 
+  it('Should return parameters, option: --help', () => {
+    assert.throws(() => parseArgs(['-a', '1', 'file1.txt']),
+      { name: 'head', message: 'illegal option -- -a', code: '--help' });
+  });
+
+  it('Should throw error because of no arguments', () => {
+    assert.throws(() => parseArgs([]),
+      { name: 'FileRead Error', message: 'Can\'t read file' });
+  });
 });

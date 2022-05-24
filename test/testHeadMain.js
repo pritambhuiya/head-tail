@@ -47,7 +47,7 @@ describe('headMain', () => {
 
   it('Should return undefined because of 0 as value', () => {
     const mockReadFileSync = shouldReturn('file1.txt', 'hello');
-    assert.strictEqual(headMain(mockReadFileSync, '-c1', '-n2', 'file1.txt'),
+    assert.strictEqual(headMain(mockReadFileSync, '-c0', 'file1.txt'),
       undefined);
   });
 

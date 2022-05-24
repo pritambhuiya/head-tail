@@ -25,15 +25,15 @@ const headMain = (readFile, ...args) => {
     const { filePaths, option, value } = parseArgs(seperatedArgs);
     const fileContents = readAllFiles(readFile, filePaths);
 
-    if (option === '--help') {
-      return 'usage: head [-n lines | -c bytes] [file ...]';
-    }
-
     const delimiter = option === '-c' ? '' : '\n';
     const requiredContents = head(fileContents, delimiter, value);
     return formatContents(requiredContents, filePaths).join('\n');
+
   } catch (error) {
     console.log(`${error.name}: ${error.message}`);
+    if (error.code === '--help') {
+      return 'usage: head [-n lines | -c bytes] [file ...]';
+    }
   }
 };
 

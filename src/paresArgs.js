@@ -1,47 +1,68 @@
-/* eslint-disable complexity */
 /* eslint-disable max-statements */
 
-const updateParameters = ({ option }, key, limit) => {
-  const switches = ['-n', '-c'];
+const { warnIfFilesNotFound, warnIfOptionIsInvalid,
+  warnIfValueLessThanEqualZero, warnIfMultipleOptionsAreEntered } =
+  require('./errorHandlingFunctions.js');
 
-  if (limit === 0) {
-    throw { name: 'Parse error', message: 'Illegal count 0' };
+const pushIfArgIsNotNumber = (filePaths, argument) => {
+  if (!isFinite(argument)) {
+    filePaths.push(argument);
+  }
+};
+
+const validateOption = (argObject) => {
+  warnIfValueLessThanEqualZero(argObject);
+  warnIfOptionIsInvalid(argObject);
+};
+
+const validateAllOptions = (argsObjectsArray) => {
+  for (let index = 0; index < argsObjectsArray.length - 1; index++) {
+    const argObject = argsObjectsArray[index];
+    validateOption(argObject);
+
+    warnIfMultipleOptionsAreEntered(argsObjectsArray.slice(index, index + 2));
+  }
+};
+
+const filterArgs = (argsObjectsArray) => {
+  if (argsObjectsArray.length === 0) {
+    return { option: '-n', value: 10 };
   }
 
-  if (!switches.includes(key)) {
-    return { option: '--help' };
+  if (argsObjectsArray.length < 2) {
+    validateOption(argsObjectsArray[0]);
+    return argsObjectsArray[0];
   }
 
-  if (!option.includes(key)) {
-    throw { name: 'Parse error', message: 'Can\'t work on -c & -n' };
-  }
-  return { option: key, value: limit };
+  validateAllOptions(argsObjectsArray);
+  return argsObjectsArray[argsObjectsArray.length - 1];
+
 };
 
 const parseArgs = (args) => {
+  const argsObject = [];
   const filePaths = [];
-  let parameters = { option: '-c-n', value: 10 };
   let index = 0;
 
   while (index < args.length) {
-    const key = args[index];
-    if (key.startsWith('-')) {
-      parameters = updateParameters(parameters, key, +args[index + 1]);
-      index++;
+    const arg = args[index];
+    const nextArg = args[index + 1];
+
+    if (arg.startsWith('-')) {
+      if (isFinite(nextArg)) {
+        argsObject.push({ option: arg, value: nextArg });
+        index++;
+      }
     }
 
-    if (!isFinite(args[index])) {
-      filePaths.push(args[index]);
-    }
+    pushIfArgIsNotNumber(filePaths, args[index]);
     index++;
   }
 
-  parameters.filePaths = filePaths;
-  if (parameters.option === '-c-n') {
-    parameters.option = '-n';
-  }
-
-  return parameters;
+  const filteredArgs = filterArgs(argsObject);
+  warnIfFilesNotFound(filePaths);
+  filteredArgs.filePaths = filePaths;
+  return filteredArgs;
 };
 
 exports.parseArgs = parseArgs;
