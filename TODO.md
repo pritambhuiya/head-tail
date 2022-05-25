@@ -2,14 +2,24 @@
 
 **TODO**
 
-- [ ] Create directory structure
-- [ ] Create testTailLib.js in test/tail
-- [ ] Create tailLib.js in src/tail
-- [ ] Write a test case/expectation
-- [ ] Make a test case pass
+- [ ] Implement -n option
+- [ ] Work on fileContents instead of files
+- [ ] Investigate tail
+
+**MAYBE**
+
+- [ ] Consider keeping head & tail files together
 
 **DONE**
 
+- [x] Require split & join from head
+- [x] Implement tail for multiple lines
+- [x] Implement tail for 1 line
+- [x] Make a test case pass
+- [x] Write a test case/expectation
+- [x] Create tailLib.js in src/tail
+- [x] Create testTailLib.js in test/tail
+- [x] Create directory structure
 
 * **HEAD**
 

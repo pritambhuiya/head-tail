@@ -70,3 +70,5 @@ exports.head = head;
 exports.headMain = headMain;
 exports.formatContents = formatContents;
 exports.seperateArgs = seperateArgs;
+exports.split = split;
+exports.join = join;
