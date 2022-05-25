@@ -2,16 +2,23 @@
 
 **TODO**
 
-- [ ] Decide job based on value 
+- [ ] Implement multiple fileContents
 - [ ] Work on fileContents instead of files
+- [ ] Implement -r option
+- [ ] Implement -q option
+- [ ] Implement default option -n with 10 
 - [ ] Investigate tail
 
 **MAYBE**
-
+- [ ] Consider renaming from variable
 - [ ] Consider keeping head & tail files together
 
 **DONE**
 
+- [x] Extract decideIndex
+- [x] Extract decideStrategy
+- [x] Extract formatNumber
+- [x] Decide job based on value 
 - [x] Implement `bytes` option
 - [x] Implement `lines` option
 - [x] Extract tailMain
