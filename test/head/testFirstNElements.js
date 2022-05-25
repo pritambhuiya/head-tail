@@ -1,4 +1,4 @@
-const { firstNElements } = require('../src/headLib.js');
+const { firstNElements } = require('../../src/head/headLib.js');
 const assert = require('assert');
 
 describe('firstNElements', () => {

@@ -1,5 +1,5 @@
 const { seperateArgs, formatContents, contentsUpto, head } =
-  require('../src/headLib.js');
+  require('../../src/head/headLib.js');
 const assert = require('assert');
 
 describe('formatContents', () => {

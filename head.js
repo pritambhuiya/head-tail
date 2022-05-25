@@ -1,6 +1,6 @@
 // console.log('usage: head [-n lines | -c bytes] [file ...]');
 
-const { headMain } = require('./src/headLib.js');
+const { headMain } = require('./src/head/headLib.js');
 const fs = require('fs');
 
 const main = () => {

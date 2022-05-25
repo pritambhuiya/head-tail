@@ -1,4 +1,4 @@
-const { parseArgs } = require('../src/paresArgs.js');
+const { parseArgs } = require('../../src/head/paresArgs.js');
 
 const assert = require('assert');
 
