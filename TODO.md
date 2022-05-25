@@ -1,3 +1,18 @@
+* **TAIL**
+
+**TODO**
+
+- [ ] Create directory structure
+- [ ] Create testTailLib.js in test/tail
+- [ ] Create tailLib.js in src/tail
+- [ ] Write a test case/expectation
+- [ ] Make a test case pass
+
+**DONE**
+
+
+* **HEAD**
+
 **TODO**
 
 - [ ] Show show contents & error(if found)
