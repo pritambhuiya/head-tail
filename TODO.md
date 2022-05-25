@@ -2,8 +2,7 @@
 
 **TODO**
 
-- [ ] Implement `bytes` option
-- [ ] Extract tailMain
+- [ ] Decide job based on value 
 - [ ] Work on fileContents instead of files
 - [ ] Investigate tail
 
@@ -13,7 +12,9 @@
 
 **DONE**
 
+- [x] Implement `bytes` option
 - [x] Implement `lines` option
+- [x] Extract tailMain
 - [x] Require split & join from head
 - [x] Implement tail for multiple lines
 - [x] Implement tail for 1 line
