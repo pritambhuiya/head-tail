@@ -2,25 +2,29 @@ const { split, join } = require('../../src/head/headLib.js');
 
 const decideStrategy = (option) => option === '-n' ? 'lines' : 'bytes';
 
-const formatNumber = (number) => number.includes('-') ? `${-number}` : number;
+const isMinusPresent = (letters,) => letters.includes('-');
 
-const decideIndex = (contents, from) =>
-  from.includes('+') ? from - 1 : contents.length - from;
+const isPlusPresent = (letters,) => letters.includes('+');
 
-const contentsFrom = (contents, from) => contents.slice(from);
+const formatLimit = (limit) => isMinusPresent(limit) ? `${-limit}` : limit;
 
-const tail = (fileContents, strategy, from) => {
+const decideIndex = (contents, limit) =>
+  isPlusPresent(limit) ? limit - 1 : contents.length - limit;
+
+const contentsFrom = (contents, index) => contents.slice(index);
+
+const tail = (fileContents, strategy, limit) => {
   const contents = split[strategy](fileContents);
-  const index = decideIndex(contents, from);
+  const index = decideIndex(contents, limit);
   const requiredContents = contentsFrom(contents, index);
 
   return join[strategy](requiredContents);
 };
 
-const tailMain = (fileContents, option, from) => {
-  const formattedFrom = formatNumber(from);
+const tailMain = (fileContents, option, limit) => {
+  const formattedLimit = formatLimit(limit);
   const strategy = decideStrategy(option);
-  return tail(fileContents, strategy, formattedFrom);
+  return tail(fileContents, strategy, formattedLimit);
 };
 
 exports.tail = tail;
