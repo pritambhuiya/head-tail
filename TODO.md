@@ -2,7 +2,8 @@
 
 **TODO**
 
-- [ ] Implement -n option
+- [ ] Implement `bytes` option
+- [ ] Extract tailMain
 - [ ] Work on fileContents instead of files
 - [ ] Investigate tail
 
@@ -12,6 +13,7 @@
 
 **DONE**
 
+- [x] Implement `lines` option
 - [x] Require split & join from head
 - [x] Implement tail for multiple lines
 - [x] Implement tail for 1 line
