@@ -1,45 +1,46 @@
-* **TAIL**
+ > # TAIL
 
-**TODO**
+- **TODO**
+  - [ ] Implement multiple fileContents
+  - [ ] Work on fileContents instead of files
+  - [ ] Implement -r option
+  - [ ] Implement -q option
+  - [ ] Implement default option -n with 10 
+  - [ ] Investigate tail
 
-- [ ] Implement multiple fileContents
-- [ ] Work on fileContents instead of files
-- [ ] Implement -r option
-- [ ] Implement -q option
-- [ ] Implement default option -n with 10 
-- [ ] Investigate tail
+- **MAYBE**
+  - [ ] Consider renaming from variable
+  - [ ] Consider keeping head & tail files together
 
-**MAYBE**
-- [ ] Consider renaming from variable
-- [ ] Consider keeping head & tail files together
+- **DONE**
+  - [x] Extract decideIndex
+  - [x] Extract decideStrategy
+  - [x] Extract formatNumber
+  - [x] Decide job based on value 
+  - [x] Implement `bytes` option
+  - [x] Implement `lines` option
+  - [x] Extract tailMain
+  - [x] Require split & join from head
+  - [x] Implement tail for multiple lines
+  - [x] Implement tail for 1 line
+  - [x] Make a test case pass
+  - [x] Write a test case/expectation
+  - [x] Create tailLib.js in src/tail
+  - [x] Create testTailLib.js in test/tail
+  - [x] Create directory structure
+<hr>
 
-**DONE**
+<br/>
 
-- [x] Extract decideIndex
-- [x] Extract decideStrategy
-- [x] Extract formatNumber
-- [x] Decide job based on value 
-- [x] Implement `bytes` option
-- [x] Implement `lines` option
-- [x] Extract tailMain
-- [x] Require split & join from head
-- [x] Implement tail for multiple lines
-- [x] Implement tail for 1 line
-- [x] Make a test case pass
-- [x] Write a test case/expectation
-- [x] Create tailLib.js in src/tail
-- [x] Create testTailLib.js in test/tail
-- [x] Create directory structure
+> # HEAD
 
-* **HEAD**
+- **TODO**
+  - [ ] Refactor parseArgs function
+  - [ ] Show show contents & error(if found)
 
-**TODO**
+- **MAYBE**
 
-- [ ] Show show contents & error(if found)
-
-**MAYBE**
-
-**DONE**
+- **DONE**
 
 - [x] Investigate head
 - [x] Should work for -optionValue & -option Value

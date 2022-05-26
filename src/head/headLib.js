@@ -1,4 +1,4 @@
-const { parseArgs } = require('./paresArgs.js');
+const { parseArgs } = require('./parseArgs.js');
 
 const split = {
   lines: (contents) => contents.split('\n'),
