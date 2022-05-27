@@ -1,10 +1,18 @@
-const { split, join } = require('../../src/head/headLib.js');
+const split = {
+  lines: (contents) => contents.split('\n'),
+  bytes: (contents) => contents.split('')
+};
+
+const join = {
+  lines: (contents) => contents.join('\n'),
+  bytes: (contents) => contents.join('')
+};
 
 const decideStrategy = (option) => option === '-n' ? 'lines' : 'bytes';
 
-const isMinusPresent = (letters,) => letters.includes('-');
+const isMinusPresent = (letters) => letters.startsWith('-');
 
-const isPlusPresent = (letters,) => letters.includes('+');
+const isPlusPresent = (letters) => letters.startsWith('+');
 
 const formatLimit = (limit) => isMinusPresent(limit) ? `${-limit}` : limit;
 
@@ -29,3 +37,5 @@ const tailMain = (fileContents, option, limit) => {
 
 exports.tail = tail;
 exports.tailMain = tailMain;
+exports.formatLimit = formatLimit;
+exports.decideIndex = decideIndex;

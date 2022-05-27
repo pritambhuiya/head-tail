@@ -1,4 +1,5 @@
-const { tail, tailMain } = require('../../src/tail/tailLib.js');
+const { tail, tailMain, formatLimit, decideIndex } =
+  require('../../src/tail/tailLib.js');
 const assert = require('assert');
 
 describe('tail', () => {
@@ -46,5 +47,34 @@ describe('tailMain', () => {
 
   it('Should return given number of bytes from end for -', () => {
     assert.strictEqual(tailMain('hello', '-c', '-2'), 'lo');
+  });
+});
+
+describe('formatLimit', () => {
+  it('Should return Absolute value of a negative number', () => {
+    assert.strictEqual(formatLimit('-1'), '1');
+  });
+
+  it('Should return Absolute value of a positive number', () => {
+    assert.strictEqual(formatLimit('2'), '2');
+    assert.strictEqual(formatLimit('+2'), '+2');
+  });
+});
+
+describe('decideIndex', () => {
+  it('Should return 1 when content\'s length is 5 & limit is +2', () => {
+    assert.strictEqual(decideIndex('abcde', '+2'), 1);
+  });
+
+  it('Should return 1 when content\'s length is 3 & limit is +2', () => {
+    assert.strictEqual(decideIndex('abc', '+2'), 1);
+  });
+
+  it('Should return 3 when content\'s length is 5 & limit is 2', () => {
+    assert.strictEqual(decideIndex('abcde', '2'), 3);
+  });
+
+  it.skip('Should return 1 when content\'s length is 3 & limit is 2', () => {
+    assert.strictEqual(decideIndex('abc\n', '2'), 1);
   });
 });
