@@ -1,4 +1,4 @@
-const { seperateArgs, formatContents, contentsUpto, head } =
+const { seperateArgs, formatContents, head } =
   require('../../src/head/headLib.js');
 const assert = require('assert');
 
@@ -25,24 +25,6 @@ describe('seperateArgs', () => {
   it('Should not care if option & value together or not', () => {
     assert.deepStrictEqual(seperateArgs(['-n5', '-c', '5', 'file.txt']),
       ['-n', '5', '-c', '5', 'file.txt']);
-  });
-});
-
-describe('contentsUpto', () => {
-  it('Should return 1 element', () => {
-    assert.deepStrictEqual(contentsUpto(['a'], 1), ['a']);
-    assert.deepStrictEqual(contentsUpto(['a', 'b'], 1), ['a']);
-  });
-
-  it('Should return multiple elements', () => {
-    assert.deepStrictEqual(contentsUpto(['a', 'b'], 2), ['a', 'b']);
-    assert.deepStrictEqual(contentsUpto(['a', 'b', 'c'], 2), ['a', 'b']);
-  });
-
-  it('Should return all elements when limit is greater then elements', () => {
-    assert.deepStrictEqual(contentsUpto([], 2), []);
-    assert.deepStrictEqual(contentsUpto(['a'], 3), ['a']);
-    assert.deepStrictEqual(contentsUpto(['a', 'b'], 3), ['a', 'b']);
   });
 });
 

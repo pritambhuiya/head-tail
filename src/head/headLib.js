@@ -1,22 +1,8 @@
 const { parseArgs, isOption } = require('./parseArgs.js');
 
-const split = {
-  lines: (contents) => contents.split('\n'),
-  bytes: (contents) => contents.split('')
-};
+const splitLines = (content) => content.split('\n');
 
-const join = {
-  lines: (contents) => contents.join('\n'),
-  bytes: (contents) => contents.join('')
-};
-
-const contentsUpto = (contents, upto) => contents.slice(0, upto);
-
-const firstNElements = (fileContents, strategy, upto) => {
-  const contents = split[strategy](fileContents);
-  const requiredContents = contentsUpto(contents, upto);
-  return join[strategy](requiredContents);
-};
+const joinLines = (content) => content.join('\n');
 
 const seperateOptionsFromLimits = (arg) =>
   isOption(arg) ? [arg.slice(0, 2), arg.slice(2)] : arg;
@@ -34,19 +20,30 @@ const readAllFiles = (readFile, filePaths) => {
   }
 };
 
-const head = (fileContents, option, limit) => {
-  const switches = { '-c': 'bytes', '-n': 'lines' };
-  const strategy = switches[option];
-  return fileContents.map(content => firstNElements(content, strategy, limit));
+const firstNLines = (fileContent, limit) => {
+  const content = splitLines(fileContent);
+  return joinLines(content.slice(0, limit));
 };
 
-const isSingleFile = (filePaths) => filePaths.length === 1;
+const firstNBytes = (fileContent, limit) => fileContent.slice(0, limit);
 
-const formatFileNames = (fileContents, filePaths) => filePaths.flatMap(
-  (path, index) => [`==> ${path} <==`, fileContents[index]]);
+const decideStrategy = (option) => {
+  const switches = { '-c': firstNBytes, '-n': firstNLines };
+  return switches[option];
+};
+
+const isSingleFile = (filePaths) => filePaths.length < 2;
+
+const formatFileNames = (fileContents, filePaths) =>
+  filePaths.flatMap((path, index) => [`==> ${path} <==`, fileContents[index]]);
 
 const formatContents = (fileContents, filePaths) => isSingleFile(filePaths) ?
   fileContents : formatFileNames(fileContents, filePaths);
+
+const head = (fileContents, option, limit) => {
+  const strategy = decideStrategy(option);
+  return fileContents.map(fileContent => strategy(fileContent, limit));
+};
 
 const headMain = (readFile, ...args) => {
   const seperatedArgs = seperateArgs(args);
@@ -54,14 +51,13 @@ const headMain = (readFile, ...args) => {
   const fileContents = readAllFiles(readFile, filePaths);
 
   const requiredContents = head(fileContents, option, limit);
-  return formatContents(requiredContents, filePaths).join('\n');
+  const formattedContents = formatContents(requiredContents, filePaths);
+  return joinLines(formattedContents);
 };
 
-exports.firstNElements = firstNElements;
-exports.contentsUpto = contentsUpto;
+exports.seperateArgs = seperateArgs;
+exports.formatContents = formatContents;
 exports.head = head;
 exports.headMain = headMain;
-exports.formatContents = formatContents;
-exports.seperateArgs = seperateArgs;
-exports.split = split;
-exports.join = join;
+exports.splitLines = splitLines;
+exports.joinLines = joinLines;

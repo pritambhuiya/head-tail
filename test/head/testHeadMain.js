@@ -27,25 +27,25 @@ describe('headMain', () => {
       '==> file1.txt <==\nhello\n==> file2.txt <==\nbye');
   });
 
-  it('Should show usage when wrong option is encountered', () => {
-    const mockReadFileSync = shouldReturn({ 'file1.txt': 'hello' });
-    assert.throws(() => headMain(mockReadFileSync, '-a', '1', 'file1.txt'),
-      { name: 'head', message: 'illegal option -- -a', option: '--help' });
-  });
-
   it('Should work if option & value are together', () => {
     const mockReadFileSync = shouldReturn({ 'file1.txt': 'hello' });
     assert.strictEqual(headMain(mockReadFileSync, '-c2', 'file1.txt'),
       'he');
   });
 
-  it('Should return undefined because of -c & -n', () => {
+  it('Should show usage when wrong option is encountered', () => {
+    const mockReadFileSync = shouldReturn({ 'file1.txt': 'hello' });
+    assert.throws(() => headMain(mockReadFileSync, '-a', '1', 'file1.txt'),
+      { name: 'head', message: 'illegal option -- -a', option: '--help' });
+  });
+
+  it('Should throw error because of -c & -n', () => {
     const mockReadFileSync = shouldReturn('file1.txt', 'hello');
     assert.throws(() => headMain(mockReadFileSync, '-c1', '-n2', 'file1.txt'),
       { name: 'head', message: 'can\'t combine line and byte counts' });
   });
 
-  it('Should return undefined because of 0 as value', () => {
+  it('Should throw error because of 0 as value', () => {
     const mockReadFileSync = shouldReturn('file1.txt', 'hello');
     assert.throws(() => headMain(mockReadFileSync, '-c0', 'file1.txt'),
       { name: 'head', message: 'illegal byte count -- 0' });
