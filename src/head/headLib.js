@@ -1,4 +1,4 @@
-const { parseArgs } = require('./parseArgs.js');
+const { parseArgs, isOption } = require('./parseArgs.js');
 
 const split = {
   lines: (contents) => contents.split('\n'),
@@ -18,8 +18,6 @@ const firstNElements = (fileContents, strategy, upto) => {
   return join[strategy](requiredContents);
 };
 
-const isOption = (arg) => arg.startsWith('-');
-
 const seperateOptionsFromLimits = (arg) =>
   isOption(arg) ? [arg.slice(0, 2), arg.slice(2)] : arg;
 
@@ -37,20 +35,15 @@ const readAllFiles = (readFile, filePaths) => {
 };
 
 const head = (fileContents, option, limit) => {
-  const strategy = option === '-c' ? 'bytes' : 'lines';
+  const switches = { '-c': 'bytes', '-n': 'lines' };
+  const strategy = switches[option];
   return fileContents.map(content => firstNElements(content, strategy, limit));
 };
 
 const isSingleFile = (filePaths) => filePaths.length === 1;
 
-const formatFileNames = (fileContents, filePaths) => {
-  const contents = [];
-
-  for (let index = 0; index < filePaths.length; index++) {
-    contents.push(`==> ${filePaths[index]} <==`, fileContents[index]);
-  }
-  return contents;
-};
+const formatFileNames = (fileContents, filePaths) => filePaths.flatMap(
+  (path, index) => [`==> ${path} <==`, fileContents[index]]);
 
 const formatContents = (fileContents, filePaths) => isSingleFile(filePaths) ?
   fileContents : formatFileNames(fileContents, filePaths);

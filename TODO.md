@@ -35,7 +35,10 @@
 > # HEAD
 
 - **TODO**
-  - [ ] Refactor parseArgs function
+  - [ ] Refactor parseArgs 
+  - [ ] Refactor headLib 
+  - [ ] Handle only number instead of option
+  - [ ] Add functionality to show contents also if error found while reading file.
   - [ ] Show show contents & error(if found)
 
 - **MAYBE**

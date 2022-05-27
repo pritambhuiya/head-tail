@@ -1,6 +1,8 @@
-const { parseArgs } = require('../../src/head/parseArgs.js');
-
 const assert = require('assert');
+
+const lib = require('../../src/head/parseArgs.js');
+const { parseArgs, validateAreAllOptionsSame, validateOption, validateLimit }
+  = lib;
 
 describe('parseArgs', () => {
   it('Should return parameters of overridden -c -c', () => {
@@ -58,5 +60,43 @@ describe('parseArgs', () => {
       'file1.txt']), {
       name: 'head', message: 'illegal option -- -b', option: '--help'
     });
+  });
+});
+
+describe('validateAreAllOptionsSame', () => {
+  it('Should not throw error for same options', () => {
+    assert.strictEqual(validateAreAllOptionsSame(['-c', '-c']), undefined);
+  });
+
+  it('Should throw error for different options', () => {
+    assert.throws(() => validateAreAllOptionsSame(['-c', '-n']),
+      { name: 'head', message: 'can\'t combine line and byte counts' });
+  });
+});
+
+describe('validateOption', () => {
+  it('Should not throw error for valid options', () => {
+    assert.strictEqual(validateOption({ flag: '-c', count: '2' }), undefined);
+  });
+
+  it('Should throw error for invalid option', () => {
+    assert.throws(() => validateOption({ flag: '-a', count: '2' }),
+      { name: 'head', message: 'illegal option -- -a', option: '--help' });
+  });
+
+  it('Should throw error for invalid count', () => {
+    assert.throws(() => validateLimit({ flag: '-c', count: '-a' }),
+      { name: 'head', message: 'illegal byte count -- -a' });
+  });
+});
+
+describe('validateLimit', () => {
+  it('Should not throw error for valid limit', () => {
+    assert.strictEqual(validateLimit({ flag: '-c', count: '2' }), undefined);
+  });
+
+  it('Should throw error for invalid limit', () => {
+    assert.throws(() => validateLimit({ flag: '-c', count: '-a' }),
+      { name: 'head', message: 'illegal byte count -- -a' });
   });
 });

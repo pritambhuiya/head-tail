@@ -7,7 +7,7 @@ describe('formatContents', () => {
     assert.deepStrictEqual(formatContents(['a\nb'], ['file1.txt']), ['a\nb']);
   });
 
-  it('Should format fileName if only multiple files are present', () => {
+  it('Should format fileName if multiple files are present', () => {
     assert.deepStrictEqual(formatContents(['a\nb', 'a b'], ['a.txt', 'b.txt']),
       ['==> a.txt <==', 'a\nb', '==> b.txt <==', 'a b']);
   });
@@ -39,27 +39,24 @@ describe('contentsUpto', () => {
     assert.deepStrictEqual(contentsUpto(['a', 'b', 'c'], 2), ['a', 'b']);
   });
 
-  it('Should return all elements when upto is greater then elements', () => {
-    assert.deepStrictEqual(contentsUpto(['a'], 2), ['a']);
+  it('Should return all elements when limit is greater then elements', () => {
+    assert.deepStrictEqual(contentsUpto([], 2), []);
+    assert.deepStrictEqual(contentsUpto(['a'], 3), ['a']);
     assert.deepStrictEqual(contentsUpto(['a', 'b'], 3), ['a', 'b']);
   });
 });
 
 describe('head', () => {
-  it('Should work on overridden -c', () => {
-    assert.deepStrictEqual(head(['a\nb\nc'], '', 1), ['a']);
+  it('Should return contents for option -c', () => {
+    assert.deepStrictEqual(head(['a\nb\nc'], '-c', 1), ['a']);
   });
 
-  it('Should work on overridden -n', () => {
-    assert.deepStrictEqual(head(['a\nb\nc'], '\n', 1), ['a']);
-  });
-
-  it('Should return all contets when only contents is given', () => {
-    assert.deepStrictEqual(head(['a\nb\nc'], '\n', 10), ['a\nb\nc']);
+  it('Should return contents for option -n', () => {
+    assert.deepStrictEqual(head(['a\nb\nc'], '-n', 1), ['a']);
   });
 
   it('Should work for multi-contents', () => {
-    assert.deepStrictEqual(head(['a\nb\nc', 'a\nb'], '\n', 10),
+    assert.deepStrictEqual(head(['a\nb\nc', 'a\nb'], '-n', 10),
       ['a\nb\nc', 'a\nb']);
   });
 });

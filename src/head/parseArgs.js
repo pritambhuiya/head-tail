@@ -1,4 +1,5 @@
 /* eslint-disable max-statements */
+
 const isOption = (arg) => arg.startsWith('-');
 
 const isOptionNotValid = (flag) => !['-c', '-n'].includes(flag);
@@ -20,15 +21,13 @@ const validateOption = ({ flag, count }) => {
   validateLimit({ flag, count });
 };
 
-const validateDifferentOptions = ([firstOption, ...restOptions]) => {
+const validateAreAllOptionsSame = ([firstOption, ...restOptions]) => {
   restOptions.forEach(option => {
     if (option !== firstOption) {
       throw { name: 'head', message: 'can\'t combine line and byte counts' };
     }
   });
 };
-
-const hasFileNotEncountered = ({ filePaths }) => filePaths.length === 0;
 
 const getAllFilePaths = (args, index) => args.slice(index);
 
@@ -37,30 +36,26 @@ const parseArgs = (args) => {
   const options = [];
   const parsedArguments = { option: '-n', limit: 10, filePaths: [] };
 
-  while (hasFileNotEncountered(parsedArguments)) {
+  while (isOption(args[index])) {
+    const flagCountPair = { flag: args[index], count: args[index + 1] };
+    validateOption(flagCountPair);
 
-    if (isOption(args[index])) {
+    parsedArguments.option = flagCountPair.flag;
+    parsedArguments.limit = flagCountPair.count;
 
-      const flagCountPair = { flag: args[index], count: args[index + 1] };
-      validateOption(flagCountPair);
-
-      parsedArguments.option = flagCountPair.flag;
-      parsedArguments.limit = flagCountPair.count;
-
-      options.push(args[index]);
-      index++;
-
-    } else {
-      parsedArguments.filePaths.push(args[index]);
-    }
-    index++;
+    options.push(args[index]);
+    index += 2;
   }
 
   const filePaths = getAllFilePaths(args, index);
   parsedArguments.filePaths.push(...filePaths);
 
-  validateDifferentOptions(options);
+  validateAreAllOptionsSame(options);
   return parsedArguments;
 };
 
 exports.parseArgs = parseArgs;
+exports.isOption = isOption;
+exports.validateAreAllOptionsSame = validateAreAllOptionsSame;
+exports.validateOption = validateOption;
+exports.validateLimit = validateLimit;
