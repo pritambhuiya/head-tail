@@ -1,7 +1,8 @@
 const assert = require('assert');
 
 const lib = require('../../src/head/parseArgs.js');
-const { parseArgs, validateAreAllOptionsSame, validateOption, validateLimit }
+
+const { parseArgs, validateCombination, validateOption, validateLimit }
   = lib;
 
 describe('parseArgs', () => {
@@ -63,13 +64,13 @@ describe('parseArgs', () => {
   });
 });
 
-describe('validateAreAllOptionsSame', () => {
+describe('validateCombination', () => {
   it('Should not throw error for same options', () => {
-    assert.strictEqual(validateAreAllOptionsSame(['-c', '-c']), undefined);
+    assert.strictEqual(validateCombination(['-c', '-c']), undefined);
   });
 
   it('Should throw error for different options', () => {
-    assert.throws(() => validateAreAllOptionsSame(['-c', '-n']),
+    assert.throws(() => validateCombination(['-c', '-n']),
       { name: 'head', message: 'can\'t combine line and byte counts' });
   });
 });

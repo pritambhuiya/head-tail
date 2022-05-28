@@ -21,7 +21,7 @@ const validateOption = ({ flag, count }) => {
   validateLimit({ flag, count });
 };
 
-const validateAreAllOptionsSame = ([firstOption, ...restOptions]) => {
+const validateCombination = ([firstOption, ...restOptions]) => {
   restOptions.forEach(option => {
     if (option !== firstOption) {
       throw { name: 'head', message: 'can\'t combine line and byte counts' };
@@ -50,12 +50,12 @@ const parseArgs = (args) => {
   const filePaths = getAllFilePaths(args, index);
   parsedArguments.filePaths.push(...filePaths);
 
-  validateAreAllOptionsSame(options);
+  validateCombination(options);
   return parsedArguments;
 };
 
 exports.parseArgs = parseArgs;
 exports.isOption = isOption;
-exports.validateAreAllOptionsSame = validateAreAllOptionsSame;
+exports.validateCombination = validateCombination;
 exports.validateOption = validateOption;
 exports.validateLimit = validateLimit;

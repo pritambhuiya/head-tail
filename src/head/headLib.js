@@ -4,11 +4,11 @@ const splitLines = (content) => content.split('\n');
 
 const joinLines = (content) => content.join('\n');
 
-const seperateOptionsFromLimits = (arg) =>
+const seperateCombinedOpitons = (arg) =>
   isOption(arg) ? [arg.slice(0, 2), arg.slice(2)] : arg;
 
 const seperateArgs = (args) => {
-  const seperatedArgs = args.flatMap(seperateOptionsFromLimits);
+  const seperatedArgs = args.flatMap(seperateCombinedOpitons);
   return seperatedArgs.filter((arg) => arg.length > 0);
 };
 
